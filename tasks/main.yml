@@ -2,7 +2,7 @@
 - name: Add static ip to nic on provisioning network
   become: true
   template:
-    source: ifcfg-virthost-provision.j2
+    src: ifcfg-virthost-provision.j2
     dest: /etc/sysconfig/network-scripts/ifcfg-{{ virthost_provisioning_interface }}
     mode: 644
     owner: root
