@@ -1,0 +1,7 @@
+Code-Review+2: mathieu bultel <mat.bultel@gmail.com>
+Verified+1: mathieu bultel <mat.bultel@gmail.com>
+Submitted-by: mathieu bultel <mat.bultel@gmail.com>
+Submitted-at: Thu, 26 May 2016 03:44:27 -0400
+Reviewed-on: https://review.gerrithub.io/277938
+Project: redhat-openstack/ansible-role-tripleo-baremetal-prep-virthost
+Branch: refs/heads/master
