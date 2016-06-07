@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Script to add provisioning interface to brovc
+
+set -eux
+
+# Add static ip to nic on provisioning network
+sudo cat > /etc/sysconfig/network-scripts/ifcfg-{{ virthost_provisioning_interface }} << EOF
+{% include ifcfg-virthost-provision.j2 %}
+EOF
+
+# Bring the nic down first
+sudo ifdown {{ virthost_provisioning_interface }}
+
+# Bring the nic up again
+sudo ifup {{ virthost_provisioning_interface }}
+
+# Add provisioning interface to the "brovc" bridge
+sudo brctl addif brovc {{ virthost_provisioning_interface }}
+
