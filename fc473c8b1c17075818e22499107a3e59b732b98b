@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_7484b0b0",
+        "filename": "templates/add-provisioning-interface.sh.j2",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006607
+      },
+      "writtenOn": "2016-08-17T16:40:59Z",
+      "side": 1,
+      "message": "These lines need to be wrapped into some form of rST doc structure e.g. \n\n## .. note:: When deploying ...\n##           more stuff...\n\nThese docs will be included inside of the shell scripts as well and /as is/ would cause problems when this was executed",
+      "revId": "fc473c8b1c17075818e22499107a3e59b732b98b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
