@@ -3,10 +3,14 @@ Role Name
 
 An Ansible role to set up a machine to host a virtual undercloud for a TripleO deployment on baremetal nodes.
 
+Background
+----------
+TripleO quickstart creates two bridges named brovc and brext for external and overcloud network by default. The default network configuration resides in [tripleo-quickstart/roles/common/defaults/main.yml](https://github.com/openstack/tripleo-quickstart/blob/master/roles/common/defaults/main.yml#L85). The environment setup roles of quickstart follow template under [tripleo-quickstart/roles/environment/setup/templates/network.xml.j2](https://github.com/openstack/tripleo-quickstart/blob/master/roles/environment/setup/templates/network.xml.j2) to iterate over the variables and create libvirt network configuration xml. The external network is for management of undercloud itself from virthost, therefore nat is enabled to masquerade internal IP subnet (192.168.23.0/24 by default). The overcloud network is for overcloud nodes to communicate with undercloud, also known as provisioning network. In case of baremetal VM overcloud deployment, the overcloud nodes are deployed on same machine as undercloud and attached to overcloud network through the libvirt VM xml template under [tripleo-quickstart/roles/libvirt/setup/overcloud/templates/baremetalvm.xml.j2](https://github.com/openstack/tripleo-quickstart/blob/master/roles/libvirt/setup/overcloud/templates/baremetalvm.xml.j2#L29). However in case of baremetal overcloud deployment the overcloud network has to be extended to physical provisioning network by attaching the nic on provisioning network to bridge brovc. 
+
 Requirements
 ------------
 
-This role assumes that the host machine already has a nic on the provisioning network. The role assigns the nic an IP address.
+This role assumes that the host machine already has a nic on the provisioning network. The role plugs the nic into the bridge for overcloud network (brovc by default). 
 
 Role Variables
 --------------
