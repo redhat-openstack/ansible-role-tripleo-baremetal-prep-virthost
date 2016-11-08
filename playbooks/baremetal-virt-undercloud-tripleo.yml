@@ -73,17 +73,17 @@
   roles:
     - overcloud-prep-config
 
-- name:  Prepare the overcloud images for deployment
-  hosts: undercloud
-  gather_facts: no
-  roles:
-    - overcloud-prep-images
-
 - name:  Perpare the baremetal overcloud
   hosts: undercloud
   gather_facts: no
   roles:
     - overcloud-prep-baremetal
+
+- name:  Prepare the overcloud images for deployment
+  hosts: undercloud
+  gather_facts: no
+  roles:
+    - overcloud-prep-images
 
 - name:  Prepare overcloud flavors
   hosts: undercloud
@@ -99,7 +99,7 @@
 
 - name:  Deploy the overcloud
   hosts: undercloud
-  gather_facts: yes
+  gather_facts: no
   roles:
     - tripleo-overcloud
 
