@@ -1,0 +1,7 @@
+Verified+1: Ronelle Landy <rlandy@redhat.com>
+Code-Review+2: Ronelle Landy <rlandy@redhat.com>
+Submitted-by: Ronelle Landy <rlandy@redhat.com>
+Submitted-at: Tue, 08 Nov 2016 16:30:55 -0500
+Reviewed-on: https://review.gerrithub.io/301346
+Project: redhat-openstack/ansible-role-tripleo-baremetal-prep-virthost
+Branch: refs/heads/master
