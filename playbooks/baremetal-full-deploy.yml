@@ -1,59 +1,9 @@
 ---
-# Add the virthost to the in-memory inventory.  The inventory is not
-# wirtten out to disk unless you call the `rebuild-inventory` role.
-- name: Add the virthost to the inventory
-  hosts: localhost
-  tasks:
-    - add_host:
-        name: "{{virthost}}"
-        groups: "virthost"
-        ansible_fqdn: "{{ virthost }}"
-        ansible_user: "root"
-        ansible_host: "{{ virthost }}"
+- include: baremetal-prep-virthost.yml
+  when: undercloud_type == 'virt' and environment_type is defined
 
-- include: teardown-provision.yml
-
-# The `provision.yml` playbook is responsible for
-# creating an inventory entry for our `virthost` and for creating an
-# unprivileged user on that host for use by our virtual environment.
-- include: provision.yml
-
-# These teardown tasks only make sense after running provision.yml,
-# because they assume they are connecting as the `stack` user rather
-# than `root`.
-- include: teardown-nodes.yml
-- include: teardown-environment.yml
-
-# The `environment/setup` role performs any tasks that require `root`
-# access on the target host.
-- name: Install libvirt packages and configure networks
-  hosts: virthost
-  tags:
-    - environment
-  roles:
-    - environment/setup
-
-- name:  Setup undercloud and baremetal vms and networks in libvirt
-  hosts: virthost
-  gather_facts: yes
-  roles:
-    - libvirt/setup
-
-# Add the undercloud node to the generated
-# inventory.
-- name:  Inventory the undercloud
-  hosts: localhost
-  gather_facts: yes
-  vars:
-      inventory: undercloud
-  roles:
-    - tripleo-inventory
-
-- name: Prepare the host for PXE forwarding
-  hosts: virthost
-  gather_facts: no
-  roles:
-    - baremetal-prep-virthost
+- include: deploy-stack.ml
+  when: undercloud_type == 'ovb'
 
 - name: Validate IPMI and instackenv.json
   hosts: undercloud
@@ -127,10 +77,21 @@
       debug: var=overcloud_deploy_result
       failed_when: overcloud_deploy_result == "failed"
 
+# Validate the deployment
 - name:  validate the overcloud
   hosts: undercloud
   tags:
     - overcloud-validate
   gather_facts: no
   roles:
-    - tripleo-overcloud-validate
+    - { role: validate-simple, when: test_ping|bool }
+
+# Execute tempest against the overcloud deployment
+- name:  Execute tempest against the overcloud
+  hosts: undercloud
+  tags:
+    - overcloud-validate
+  gather_facts: no
+  roles:
+    - { role: validate-tempest, when: run_tempest|bool }
+
