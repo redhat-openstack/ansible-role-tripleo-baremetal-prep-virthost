@@ -1,0 +1,7 @@
+Code-Review+2: wes hayutin <weshayutin@gmail.com>
+Verified+1: wes hayutin <weshayutin@gmail.com>
+Submitted-by: wes hayutin <weshayutin@gmail.com>
+Submitted-at: Thu, 17 Nov 2016 20:31:48 -0500
+Reviewed-on: https://review.gerrithub.io/302651
+Project: redhat-openstack/ansible-role-tripleo-baremetal-prep-virthost
+Branch: refs/heads/master
